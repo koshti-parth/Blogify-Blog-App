@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Medium-like Blog Post</title>
+    <style>
+        /* General reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .post {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Title Section Styling */
+        .post-img {
+            width: 100%;
+            height: 250px;
+            border-radius: 8px;
+        }
+
+        .post-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        /* Author section styling */
+        .post-author {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .author-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .author-info {
+            font-size: 0.9rem;
+        }
+
+        .author-name {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .author-date {
+            color: #999;
+        }
+
+        /* Post body styling */
+        .post-body {
+            font-size: 1.1rem;
+            color: #555;
+            margin-top: 20px;
+        }
+
+        .post-body p {
+            margin-bottom: 15px;
+        }
+
+        /* Comment Section */
+        .comment-section {
+            margin-top: 40px;
+        }
+
+        .comment-section h2 {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            height: 120px;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            resize: none;
+        }
+
+        .comment-form button {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .comment-form button:hover {
+            background-color: #45a049;
+        }
+
+        .comment {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .comment .author-name {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .comment .comment-date {
+            color: #999;
+            font-size: 0.8rem;
+        }
+
+        .comment .comment-text {
+            margin-top: 10px;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        
+        <!-- Blog Post -->
+        <div class="post">
+
+
+
+            <!-- Title Section with Image Above Title -->
+            <img src="<%= blog.coverimage %>" alt="Blog Image" class="post-img">
+            <h1 class="post-title">
+                <%= blog.title %>
+            </h1>
+
+            <!-- Author Section -->
+            <div class="post-author">
+                <img src="/Images/1.jpg" alt="Author" class="author-img">
+                <div class="author-info">
+                    <p class="author-name">Author Email ID : <%= blog.author %>
+                    </p>
+
+                </div>
+            </div>
+
+            <!-- Body Section -->
+            <div class="post-body">
+                <p>
+                    <%= blog.content %>
+                </p>
+            </div>
+        </div>
+
+        <!-- Comment Section -->
+        <% if (locals.user) { %>
+            <div class="comment-section">
+                <h2>Leave a Comment</h2>
+
+                <!-- Comment Form -->
+                <form id="commentForm" class="comment-form" action="/loguser/comment/<%= blog._id %>" method="post">
+                    <textarea id="commentText" name="content" placeholder="Write your comment here..." required></textarea>
+                    <button type="submit">Post Comment</button>
+                </form>
+
+                <!-- Error Message -->
+                <p id="errorMessage" class="error-message" style="display: none;">Please enter a comment before
+                    submitting!</p>
+
+                <!-- List of Comments -->
+                <div id="commentsList" style="margin-top: 2%;">
+                    <!-- Existing Comments (static) -->
+                    <% if (locals.comments) { %>
+                        <% comments.forEach(comment => { %>
+                            <div class="comment">
+                                <p class="author-name">User : <%= comment.user %> </p>
+                                <p class="comment-text"> <%= comment.content %> </p>
+                            </div>
+                        <% }) %>
+                    <% } %>
+                </div>
+            </div>
+            <% } %>
+    </div>
+<!-- 
+    <script>
+        // JavaScript functionality for adding a comment
+        document.getElementById("commentForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Get the comment text
+            const commentText = document.getElementById("commentText").value.trim();
+
+            // Check if the comment is empty
+            if (commentText === "") {
+                document.getElementById("errorMessage").style.display = "block"; // Show error message
+                return;
+            }
+
+            // Hide error message if comment is not empty
+            document.getElementById("errorMessage").style.display = "none";
+
+            // Create new comment HTML element
+            const commentElement = document.createElement("div");
+            commentElement.classList.add("comment");
+
+            // Add content to the comment element
+            const currentDate = new Date().toLocaleDateString(); // Get current date
+            commentElement.innerHTML = `
+                <p class="author-name">You <span class="comment-date">${currentDate}</span></p>
+                <p class="comment-text">${commentText}</p>
+            `;
+
+            // Append the new comment to the comment list
+            document.getElementById("commentsList").appendChild(commentElement);
+
+            // Clear the textarea after submitting
+            document.getElementById("commentText").value = "";
+        });
+    </script> -->
+</body>
+
+</html>

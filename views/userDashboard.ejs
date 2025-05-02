@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blogify - User Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+
+      <style>
+        .random{
+            width: 50%;
+            height: 100px;
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top:100px;
+            margin-bottom:100px;
+            margin-left: 50vh;
+            padding: 40px;
+        }
+      </style>  
+</head>
+
+<body>
+
+
+
+
+    <!-- ----------Navigation Start -->
+
+    <nav class="navbar  navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
+                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#">Blogify</a>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    
+
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/loguser/">Explore Blogs </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" target="_blank" href="/loguser/blogform">Create Blog</a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/loguser/logout">Logout</a>
+                    </li>
+
+                    
+
+
+
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="random">
+        <h3>Welcome To DashBoard <%= user.name  %> </h3>
+        
+    </div>
+
+   
+
+    <!-- ----------Navigation End   -->
+
+    <h3 style="text-align: center;margin: 50px;">List Of Blogs That You Created</h3>
+    <div class="container my-3">
+        <div class="row">
+           <% if (locals.blogs) { %>
+                <% blogs.forEach(blog => { %>
+                    <div class="col-md-4">
+                        <div class="card" style="width: 18rem; height: 20rem;">
+                            <img src="<%= blog.coverimage  %>" class="card-img-top" alt="..." height="300px" width="300px">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= blog.title  %></h5>
+                                <a href="/loguser/blog/<%= blog._id  %>" class="btn btn-primary">Read More</a>
+                                <a href="/loguser/<%= blog._id  %>" class="btn btn-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+           <% } %>
+           
+    </div>
+    
+
+    <!-- <div class="container my-3">
+        <h3>List of Blogs</h3>
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Blog Title</th>
+                    <th scope="col">Blog Body</th>
+                    <th scope="col">Blog Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td colspan="2">Larry the Bird</td>
+                    <td>@twitter</td>
+                </tr>
+            </tbody>
+        </table>
+    </div> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
