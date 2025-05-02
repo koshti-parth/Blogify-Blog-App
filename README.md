@@ -1,0 +1,1 @@
+This is Blogging application which built on node js , express , mongodb.Moreover, User can create Post as well as do comment on Blogs.
